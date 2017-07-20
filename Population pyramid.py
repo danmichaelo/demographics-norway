@@ -76,10 +76,6 @@ def read_tsv(filename):
     return tmp
 
 
-# Prep
-prepare_canvas(width = '10 cm')
-ax = plt.gca()
-
 # Get data
 df = read_tsv('data/table10211.tsv')
 df = df[df.year == YEAR]
@@ -87,10 +83,12 @@ women = df[df.sex == 'F']
 men = df[df.sex == 'M']
 
 # Plot
+prepare_canvas(width = '10 cm')
+ax = plt.gca()
+
 ax.barh(women.age.values, -women.npersons.values, color='#490A3D', linewidth=0, height=1.2)
 ax.barh(men.age.values, men.npersons.values, color='#BD1550', linewidth=0, height=1.2)
 
-# Style
 ax.set_ylabel(u'Age in years')
 ax.set_xlabel(u'Population in thousands')
 plt.grid('on', linestyle='-', color='#8A9B0F', alpha=0.5)
@@ -102,5 +100,12 @@ plt.xticks(np.arange(-40000,40000,10000), np.abs(np.arange(-40,40,10)))
 plt.subplots_adjust(left=0.16)
 plt.subplots_adjust(bottom=0.15)
 
-# Save
 plt.savefig('plots/Population pyramid Norway %d.svg' % YEAR)
+
+# Norwegian version
+ax.set_ylabel(u'Alder i år')
+ax.set_xlabel(u'Befolkning i antall tusen')
+plt.grid('on', linestyle='-', color='#8A9B0F', alpha=0.5)
+plt.legend(('Kvinner', 'Menn'), frameon=False, loc='upper left', ncol=2, mode='expand', borderaxespad=0.)
+
+plt.savefig('plots/Befolkningspyramide Norge %d.svg' % YEAR)
